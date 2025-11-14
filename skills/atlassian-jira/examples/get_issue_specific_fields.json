@@ -1,0 +1,10 @@
+{
+  "description": "Get issue with specific fields only (minimal data transfer)",
+  "tool": "jira_get_issue",
+  "input": {
+    "issue_key": "PROJ-123",
+    "fields": "summary,status,assignee,priority",
+    "comment_limit": 0
+  },
+  "notes": "Optimized for token efficiency - only essential fields, no comments"
+}

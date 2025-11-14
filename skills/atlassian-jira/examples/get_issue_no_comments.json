@@ -1,0 +1,9 @@
+{
+  "description": "Get issue without comments (faster response)",
+  "tool": "jira_get_issue",
+  "input": {
+    "issue_key": "PROJ-123",
+    "comment_limit": 0
+  },
+  "notes": "Set comment_limit to 0 to exclude all comments"
+}

@@ -1,0 +1,8 @@
+{
+  "description": "Get basic issue information",
+  "tool": "jira_get_issue",
+  "input": {
+    "issue_key": "PROJ-123"
+  },
+  "notes": "Uses default settings: all fields, 10 comments"
+}

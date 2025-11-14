@@ -1,0 +1,11 @@
+{
+  "description": "Get issue with full change history",
+  "tool": "jira_get_issue",
+  "input": {
+    "issue_key": "PROJ-123",
+    "fields": "*all",
+    "expand": "changelog",
+    "comment_limit": 20
+  },
+  "notes": "Complete issue history - useful for auditing or understanding issue evolution"
+}
