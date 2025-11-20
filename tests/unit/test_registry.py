@@ -1,5 +1,7 @@
 """Tests for the tool registry."""
 
+from unittest.mock import MagicMock, patch
+
 import pytest
 from pydantic import BaseModel, Field
 
@@ -99,6 +101,40 @@ class TestToolRegistry:
         registry = ToolRegistry()
         registry.clear_cache()
         assert registry.get_loaded_tools() == []
+
+    def test_discover_tools_nonexistent_category(self) -> None:
+        """Test discovering tools for a category that doesn't exist."""
+        registry = ToolRegistry()
+        # This should handle the case where cat_path.exists() returns False
+        tools = registry.discover_tools(category="nonexistent")
+        assert tools == []
+
+    def test_discover_tools_import_error(self) -> None:
+        """Test discover_tools handles ImportError gracefully."""
+        registry = ToolRegistry()
+        with patch("importlib.import_module", side_effect=ImportError("Module not found")):
+            # Should not raise, just return empty or partial results
+            tools = registry.discover_tools(category="jira")
+            assert isinstance(tools, list)
+
+    def test_load_tool_import_error(self) -> None:
+        """Test load_tool handles ImportError gracefully."""
+        registry = ToolRegistry()
+        with patch("importlib.import_module", side_effect=ImportError("Module not found")):
+            with pytest.raises(ValueError, match="Failed to import module"):
+                registry.load_tool("jira_test_tool")
+
+    def test_search_tools_with_metadata_error(self) -> None:
+        """Test search_tools handles ValueError when loading metadata."""
+        registry = ToolRegistry()
+
+        # Mock discover_tools to return a tool
+        with patch.object(registry, "discover_tools", return_value=["jira_test"]):
+            # Mock get_tool_metadata to raise ValueError
+            with patch.object(registry, "get_tool_metadata", side_effect=ValueError("Metadata error")):
+                # Should not raise, just skip the tool
+                results = registry.search_tools("test")
+                assert isinstance(results, list)
 
 
 @pytest.mark.asyncio
