@@ -24,6 +24,7 @@ from atlassian_tools._core.container import (
 )
 from atlassian_tools._core.exceptions import (
     AtlassianError,
+    AtlassianTimeoutError,
     AuthenticationError,
     AuthorizationError,
     ConfigurationError,
@@ -31,7 +32,6 @@ from atlassian_tools._core.exceptions import (
     NotFoundError,
     RateLimitError,
     ServiceError,
-    TimeoutError,
     ValidationError,
 )
 from atlassian_tools._core.executor import execute_tool, validate_input
@@ -76,7 +76,7 @@ __all__ = [
     "RateLimitError",
     "ServiceError",
     "NetworkError",
-    "TimeoutError",
+    "AtlassianTimeoutError",
     # Service Container
     "get_jira_service",
     "get_confluence_service",

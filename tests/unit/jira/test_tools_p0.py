@@ -241,7 +241,7 @@ class TestJiraCreateIssue:
                 issue_type="Bug",
                 description="Detailed description",
                 priority="High",
-                assignee="user@example.com",
+                assignee_id="user-account-id-123",
                 labels=["bug", "urgent"],
                 components=["Backend", "API"],
             )
@@ -256,7 +256,7 @@ class TestJiraCreateIssue:
             issue_type="Bug",
             description="Detailed description",
             priority="High",
-            assignee="user@example.com",
+            assignee="user-account-id-123",
             labels=["bug", "urgent"],
             components=["Backend", "API"],
         )
@@ -290,7 +290,7 @@ class TestJiraCreateIssue:
     ) -> None:
         """Test creating issue with invalid data."""
         mock_jira_service.create_issue.side_effect = ValidationError(
-            "Field 'summary' is required"
+            "Invalid issue type"
         )
 
         with patch(
@@ -299,13 +299,13 @@ class TestJiraCreateIssue:
         ):
             input_data = JiraCreateIssueInput(
                 project_key="PROJ",
-                summary="",  # Empty summary
-                issue_type="Task",
+                summary="Valid Summary",
+                issue_type="InvalidType",
             )
             result = await jira_create_issue(input_data)
 
         assert result.success is False
-        assert "Field 'summary' is required" in result.error
+        assert "Invalid issue type" in result.error
 
 
 class TestJiraUpdateIssue:
@@ -356,7 +356,7 @@ class TestJiraUpdateIssue:
                 summary="New Summary",
                 description="New Description",
                 priority="High",
-                assignee="user@example.com",
+                assignee_id="user-account-id-123",
                 labels=["updated", "reviewed"],
             )
             result = await jira_update_issue(input_data)

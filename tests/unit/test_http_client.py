@@ -8,13 +8,13 @@ import pytest
 from atlassian_tools._core.config import JiraConfig
 from atlassian_tools._core.exceptions import (
     AtlassianError,
+    AtlassianTimeoutError,
     AuthenticationError,
     AuthorizationError,
     NetworkError,
     NotFoundError,
     RateLimitError,
     ServiceError,
-    TimeoutError,
     ValidationError,
 )
 from atlassian_tools._core.http_client import AtlassianHttpClient
@@ -410,7 +410,7 @@ class TestAtlassianHttpClientNetworkErrors:
             new_callable=AsyncMock,
             side_effect=httpx.TimeoutException("Request timeout"),
         ):
-            with pytest.raises(TimeoutError, match="Request timed out"):
+            with pytest.raises(AtlassianTimeoutError, match="Request timed out"):
                 await http_client.get("/rest/api/3/issue/PROJ-123")
 
     @pytest.mark.asyncio
@@ -438,7 +438,7 @@ class TestAtlassianHttpClientNetworkErrors:
             new_callable=AsyncMock,
             side_effect=httpx.TimeoutException("Request timeout"),
         ):
-            with pytest.raises(TimeoutError):
+            with pytest.raises(AtlassianTimeoutError):
                 await http_client.put("/rest/api/3/issue/PROJ-123", json={})
 
     @pytest.mark.asyncio

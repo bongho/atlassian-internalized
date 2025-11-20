@@ -508,7 +508,7 @@ async def jira_create_issue(
             issue_type=input.issue_type,
             description=input.description,
             priority=input.priority,
-            assignee=input.assignee,
+            assignee=input.assignee_id,
             labels=input.labels,
             components=input.components,
         )
@@ -537,7 +537,7 @@ async def jira_update_issue(
             summary=input.summary,
             description=input.description,
             priority=input.priority,
-            assignee=input.assignee,
+            assignee=input.assignee_id,
             labels=input.labels,
         )
         return JiraUpdateIssueOutput(success=True)

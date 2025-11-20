@@ -103,7 +103,7 @@ class NetworkError(AtlassianError):
         super().__init__(message)
 
 
-class TimeoutError(AtlassianError):
+class AtlassianTimeoutError(AtlassianError):
     """Request timeout.
 
     Raised when the API request times out.
@@ -123,5 +123,5 @@ __all__ = [
     "RateLimitError",
     "ServiceError",
     "NetworkError",
-    "TimeoutError",
+    "AtlassianTimeoutError",
 ]

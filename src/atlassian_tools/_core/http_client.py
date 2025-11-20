@@ -11,13 +11,13 @@ import httpx
 from atlassian_tools._core.config import ConfluenceConfig, JiraConfig
 from atlassian_tools._core.exceptions import (
     AtlassianError,
+    AtlassianTimeoutError,
     AuthenticationError,
     AuthorizationError,
     NetworkError,
     NotFoundError,
     RateLimitError,
     ServiceError,
-    TimeoutError,
     ValidationError,
 )
 
@@ -148,7 +148,7 @@ class AtlassianHttpClient:
             raise NetworkError(msg) from e
         except httpx.TimeoutException as e:
             msg = f"Request timed out: {e}"
-            raise TimeoutError(msg) from e
+            raise AtlassianTimeoutError(msg) from e
 
     async def post(
         self,
@@ -194,7 +194,7 @@ class AtlassianHttpClient:
             raise NetworkError(msg) from e
         except httpx.TimeoutException as e:
             msg = f"Request timed out: {e}"
-            raise TimeoutError(msg) from e
+            raise AtlassianTimeoutError(msg) from e
 
     async def put(
         self,
@@ -227,7 +227,7 @@ class AtlassianHttpClient:
             raise NetworkError(msg) from e
         except httpx.TimeoutException as e:
             msg = f"Request timed out: {e}"
-            raise TimeoutError(msg) from e
+            raise AtlassianTimeoutError(msg) from e
 
     async def delete(
         self,
@@ -258,7 +258,7 @@ class AtlassianHttpClient:
             raise NetworkError(msg) from e
         except httpx.TimeoutException as e:
             msg = f"Request timed out: {e}"
-            raise TimeoutError(msg) from e
+            raise AtlassianTimeoutError(msg) from e
 
 
 # Singleton instances for reuse

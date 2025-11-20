@@ -332,9 +332,14 @@ class JiraCreateIssueOutput(BaseModel):
 
     success: bool = Field(description="Whether the operation succeeded")
 
-    issue: dict[str, Any] | None = Field(
+    issue_key: str | None = Field(
         default=None,
-        description="Created issue data with key and id",
+        description="Created issue key (e.g., 'PROJ-123')",
+    )
+
+    issue_id: str | None = Field(
+        default=None,
+        description="Created issue ID",
     )
 
     error: str | None = Field(
@@ -880,7 +885,7 @@ class JiraDeleteIssueInput(BaseModel):
     )
 
     delete_subtasks: bool = Field(
-        default=True,
+        default=False,
         description="Whether to delete subtasks as well",
     )
 
