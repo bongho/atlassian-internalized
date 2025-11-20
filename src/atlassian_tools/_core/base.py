@@ -4,9 +4,10 @@ This module defines the core Tool protocol that all internalized tools follow,
 providing type safety and a consistent interface across Jira and Confluence operations.
 """
 
-from typing import Any, Awaitable, Callable, Protocol, TypeVar
-from pydantic import BaseModel
+from collections.abc import Awaitable, Callable
+from typing import Any, Protocol, TypeVar
 
+from pydantic import BaseModel
 
 # Type variables for generic tool inputs and outputs
 InputT = TypeVar("InputT", bound=BaseModel)

@@ -7,7 +7,6 @@ progressive loading of tools to minimize token usage.
 import importlib
 import importlib.util
 from pathlib import Path
-from typing import Any
 
 from atlassian_tools._core.base import AnyTool, ToolMetadata, create_tool_metadata
 
@@ -127,7 +126,7 @@ class ToolRegistry:
             if (
                 callable(obj)
                 and hasattr(obj, "tool_name")
-                and getattr(obj, "tool_name") == tool_name
+                and obj.tool_name == tool_name
             ):
                 tool_func: AnyTool = obj
                 self._tools[tool_name] = tool_func

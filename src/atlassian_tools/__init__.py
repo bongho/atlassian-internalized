@@ -7,7 +7,9 @@ execution pattern for maximum token efficiency.
 Example:
     >>> import atlassian_tools
     >>> tools = atlassian_tools.list_tools(category='jira')
-    >>> result = await atlassian_tools.execute_tool('jira_get_issue', {'issue_key': 'PROJ-123'})
+    >>> result = await atlassian_tools.execute_tool(
+    ...     'jira_get_issue', {'issue_key': 'PROJ-123'}
+    ... )
 """
 
 from typing import Any
@@ -89,7 +91,9 @@ async def execute_tool(tool_name: str, input_data: dict[str, Any]) -> dict[str, 
     return result.model_dump()
 
 
-def validate_input(tool_name: str, input_data: dict[str, Any]) -> tuple[bool, str | None]:
+def validate_input(
+    tool_name: str, input_data: dict[str, Any]
+) -> tuple[bool, str | None]:
     """Validate input without executing the tool.
 
     Args:
@@ -100,7 +104,9 @@ def validate_input(tool_name: str, input_data: dict[str, Any]) -> tuple[bool, st
         Tuple of (is_valid, error_message)
 
     Example:
-        >>> is_valid, error = validate_input('jira_get_issue', {'issue_key': 'PROJ-123'})
+        >>> is_valid, error = validate_input(
+        ...     'jira_get_issue', {'issue_key': 'PROJ-123'}
+        ... )
     """
     return _validate_input(tool_name, input_data)
 

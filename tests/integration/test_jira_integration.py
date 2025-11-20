@@ -9,7 +9,10 @@ These tests validate the complete flow:
 
 import pytest
 
+from atlassian_tools._core.config import clear_config_cache
+from atlassian_tools._core.container import clear_service_cache
 from atlassian_tools._core.executor import execute_tool
+from atlassian_tools._core.http_client import clear_client_cache
 from atlassian_tools._core.registry import get_registry
 
 
@@ -127,7 +130,18 @@ class TestJiraToolExecution:
         """Test executing tool without environment variables."""
         from unittest.mock import patch
 
-        with patch.dict("os.environ", {}, clear=True):
+        from atlassian_tools._core.exceptions import ConfigurationError
+
+        # Clear all caches before patching
+        clear_config_cache()
+        clear_client_cache()
+        clear_service_cache()
+
+        # Mock get_jira_config to raise ConfigurationError
+        with patch(
+            "atlassian_tools._core.config.get_jira_config",
+            side_effect=ConfigurationError("JIRA_URL is required"),
+        ):
             result = await execute_tool(
                 "jira_get_issue", {"issue_key": "PROJ-123"}
             )
@@ -189,7 +203,18 @@ class TestEndToEndFlow:
         assert metadata.name == "jira_get_issue"
 
         # Step 3: Execute tool (will fail due to missing env vars, but tests flow)
-        with patch.dict("os.environ", {}, clear=True):
+        from atlassian_tools._core.exceptions import ConfigurationError
+
+        # Clear all caches before patching
+        clear_config_cache()
+        clear_client_cache()
+        clear_service_cache()
+
+        # Mock get_jira_config to raise ConfigurationError
+        with patch(
+            "atlassian_tools._core.config.get_jira_config",
+            side_effect=ConfigurationError("JIRA_URL is required"),
+        ):
             result = await execute_tool(
                 "jira_get_issue", {"issue_key": "PROJ-123"}
             )
@@ -249,10 +274,21 @@ class TestPublicAPI:
     @pytest.mark.asyncio
     async def test_execute_tool_public_api(self) -> None:
         """Test public execute_tool function."""
-        import atlassian_tools
         from unittest.mock import patch
 
-        with patch.dict("os.environ", {}, clear=True):
+        import atlassian_tools
+        from atlassian_tools._core.exceptions import ConfigurationError
+
+        # Clear all caches before patching
+        clear_config_cache()
+        clear_client_cache()
+        clear_service_cache()
+
+        # Mock get_jira_config to raise ConfigurationError
+        with patch(
+            "atlassian_tools._core.config.get_jira_config",
+            side_effect=ConfigurationError("JIRA_URL is required"),
+        ):
             result = await atlassian_tools.execute_tool(
                 "jira_get_issue", {"issue_key": "PROJ-123"}
             )

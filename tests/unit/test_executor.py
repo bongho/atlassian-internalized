@@ -3,7 +3,7 @@
 import pytest
 from pydantic import BaseModel, Field
 
-from atlassian_tools._core.executor import execute_tool, validate_input
+from atlassian_tools._core.executor import validate_input
 
 
 class MockInput(BaseModel):
