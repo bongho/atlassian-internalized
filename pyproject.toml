@@ -155,4 +155,6 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
     "if __name__ == .__main__.:",
+    "\\.\\.\\.",  # Exclude ellipsis (...) in Protocol definitions
+    "@(abc\\.)?abstractmethod",  # Exclude abstract methods
 ]
